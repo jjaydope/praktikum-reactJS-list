@@ -7,18 +7,22 @@ class Keranjang extends Component {
         this.state = {
             keranjang: [
                 {
-                    nama: "After Hour Vinyl",
+                    nama: "After Hours Vinyl",
                     harga: 500000,
                     jumlah: 1,
-                    total: 450000,
                     gambar: "https://target.scene7.com/is/image/Target/GUEST_c8cf7126-471b-4c49-bbc8-2e6632e5b8fd?wid=488&hei=488&fmt=pjpeg"
                 },
                 {
                     nama: "Positions Vinyl",
                     harga: 575000,
                     jumlah: 1,
-                    total: 575000,
                     gambar: "https://m.media-amazon.com/images/I/51DO9vysREL._SX355_.jpg"
+                },
+                {
+                    nama: "Butter Vinyl",
+                    harga: 300000,
+                    jumlah: 1,
+                    gambar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF9qWRm3WJu0qc6uiGO35e0Yavyi0r55xeuQ&usqp=CAU"
                 },
             ],
 
@@ -27,7 +31,6 @@ class Keranjang extends Component {
             gambar: "",
             harga: 0,
             jumlah: 0,
-            total: 0,
             selectedItem: null,
         }
         this.state.filterKeranjang = this.state.keranjang
@@ -45,9 +48,8 @@ class Keranjang extends Component {
                         <Card
                             nama={item.nama}
                             gambar={item.gambar}
-                            harga={item.harga}
+                            harga={item.harga * item.jumlah}
                             jumlah={item.jumlah}
-                            total={item.harga * item.jumlah}
                             onEdit={() => this.Edit(item)}
                             onDrop={() => this.Drop(item)}
                         />
@@ -95,20 +97,11 @@ class Keranjang extends Component {
                                         })}
                                         required />
 
-                                    Total Produk
-                                    <input type="number" className="form-control mb-2"
-                                        value={this.state.total}
-                                        onChange={ev => this.setState({
-                                            total:
-                                                ev.target.value
-                                        })}
-                                        required />
-
                                     Gambar Produk
                                     <input type="url" className="form-control mb-2"
-                                        value={this.state.cover}
+                                        value={this.state.gambar}
                                         onChange={ev => this.setState({
-                                            cover:
+                                            gambar:
                                                 ev.target.value
                                         })}
                                         required />
@@ -132,7 +125,6 @@ class Keranjang extends Component {
             gambar: "",
             harga: 0,
             jumlah: 0,
-            total: 0,
             action: "insert"
         })
     }
@@ -144,7 +136,6 @@ class Keranjang extends Component {
             gambar: item.gambar,
             jumlah: item.jumlah,
             harga: item.harga,
-            total: item.total,
             action: "update",
             selectedItem: item
         })
@@ -159,7 +150,6 @@ class Keranjang extends Component {
                 nama: this.state.nama,
                 harga: this.state.harga,
                 jumlah: this.state.jumlah,
-                total: this.state.total,
                 gambar: this.state.gambar,
             })
         } else if (this.state.action === "update") {
@@ -168,7 +158,7 @@ class Keranjang extends Component {
             tempKeranjang[index].nama = this.state.nama
             tempKeranjang[index].jumlah = this.state.judul
             tempKeranjang[index].harga = this.state.harga
-            tempKeranjang[index].harga = this.state.total
+            tempKeranjang[index].jumlah = this.state.jumlah
             tempKeranjang[index].gambar = this.state.gambar
         }
         this.setState({ keranjang: tempKeranjang })
